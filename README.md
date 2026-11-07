@@ -45,7 +45,8 @@ El diseño conceptual de datos y permisos está en [`docs/diseno-inicial.md`](do
 - Odoo está configurado como servicio `systemd`, habilitado para arrancar con Ubuntu y comprobado activo después de reiniciar. La página de Aplicaciones volvió a abrir desde el navegador del portátil.
 - Después de reiniciar Ubuntu, Odoo volvió a abrir la base `gestion_instalaciones_sueca` y el contacto ficticio `Prueba persistencia L1` siguió visible en Contactos.
 - Contactos, CRM y Calendario están disponibles para las pruebas estándar. Hay una solicitud ficticia en CRM en la etapa «Calificado» y una reunión de revisión asociada en Calendario; esto simula parte del proceso y no sustituye al módulo propio.
-- La decisión final del flujo, la validación de casos incorrectos, los dos supuestos organizativos y el correo de prueba con MailHog están pendientes. Docker Compose queda como ampliación opcional según la indicación oral del profesor.
+- Se creó el usuario ficticio `prueba permisos` con acceso a Ventas limitado a sus propios documentos y sin permisos de Administración. Desde esa cuenta no apareció la oportunidad de Administrator y sí pudo crear y ver `Solicitud perfil limitado`. Es una prueba parcial del supuesto con roles separados; falta probar la variante organizativa por instalaciones.
+- La decisión final del flujo, la validación de casos incorrectos, la variante por instalaciones y el correo de prueba con MailHog están pendientes. Docker Compose queda como ampliación opcional según la indicación oral del profesor.
 - No se ha iniciado el desarrollo del módulo propio; corresponde a L2.
 
 El progreso comprobable de L1 se mantiene en [`docs/L1-verificaciones.md`](docs/L1-verificaciones.md). La incidencia real durante la primera creación de la base se registra en [`docs/incidencias.md`](docs/incidencias.md).
