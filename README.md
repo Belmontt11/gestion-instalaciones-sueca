@@ -1,10 +1,10 @@
 # Gestión de instalaciones deportivas de Sueca
 
-Proyecto académico de **2.º de DAM, módulo SGE semipresencial**, desarrollado sobre **Odoo Community 16**. La primera entrega, L1, reúne evidencias de E1 y E2. La fecha límite indicada en Aules es el **15 de noviembre de 2026 a las 23:59**.
+Proyecto académico de **2.º de DAM, módulo SGE semipresencial**, desarrollado sobre **Odoo Community 16**. La primera entrega, L1, reúne evidencias de E1 y E2.
 
 ## Necesidad
 
-El proyecto propone facilitar la organización de la información y la gestión de las instalaciones deportivas de Sueca. La situación actual y las necesidades concretas de la entidad se validarán durante el análisis; este README no presupone fallos de los procesos municipales existentes.
+El proyecto propone facilitar la organización de la información y la gestión de las instalaciones deportivas de Sueca. La situación actual y las necesidades concretas de la entidad se validarán durante el análisis.
 
 ## Personas destinatarias
 
@@ -23,9 +23,7 @@ Flujo inicial propuesto, pendiente de validación:
 2. Recibir una solicitud de uso para una instalación y una franja horaria.
 3. Revisar la solicitud y comunicar o registrar su estado.
 
-Quedan fuera del alcance inicial el uso en producción por el Ayuntamiento, los datos personales reales, los pagos y la integración con sistemas municipales. Se revisará el alcance al concretar los requisitos.
-
-El diseño conceptual de datos y permisos está en [`docs/diseno-inicial.md`](docs/diseno-inicial.md). Es una propuesta, no describe modelos ya implementados.
+El diseño conceptual de datos y permisos está en [`docs/diseno-inicial.md`](docs/diseno-inicial.md).
 
 ## Tecnologías y entorno
 
@@ -53,7 +51,7 @@ La guía de instalación desde una copia limpia, la configuración de ejemplo y 
 
 ## Autoría, ayuda y atribuciones
 
-La autoría y las atribuciones de código, bibliotecas y ayuda se completarán en [`docs/atribuciones.md`](docs/atribuciones.md). No se incluye aquí el PDF docente ni se copia su contenido de forma extensa.
+La autoría y las atribuciones de código, bibliotecas y ayuda se completarán en [`docs/atribuciones.md`](docs/atribuciones.md). 
 
 ## Licencia
 
