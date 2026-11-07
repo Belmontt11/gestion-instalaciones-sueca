@@ -25,4 +25,4 @@ La plantilla inicia Odoo escuchando en todas las interfaces de la VM para permit
 
 ## Evidencia obtenida en esta VM
 
-El servicio quedó `enabled` y `active (running)` después de reiniciar Ubuntu. La base `gestion_instalaciones_sueca` se cargó y la página de Aplicaciones volvió a abrir desde el navegador del portátil. La persistencia de un registro ficticio tras reinicio queda pendiente de comprobar.
+El servicio quedó `enabled` y `active (running)` después de reiniciar Ubuntu. La base `gestion_instalaciones_sueca` se cargó, la página de Aplicaciones volvió a abrir desde el navegador del portátil y el contacto ficticio `Prueba persistencia L1` siguió visible en Contactos tras el reinicio.
