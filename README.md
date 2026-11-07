@@ -44,7 +44,8 @@ El diseño conceptual de datos y permisos está en [`docs/diseno-inicial.md`](do
 - Odoo Server 16.0 se ha ejecutado desde el entorno virtual; la base inicial se creó y se ha iniciado sesión desde el navegador del portátil.
 - Odoo está configurado como servicio `systemd`, habilitado para arrancar con Ubuntu y comprobado activo después de reiniciar. La página de Aplicaciones volvió a abrir desde el navegador del portátil.
 - Después de reiniciar Ubuntu, Odoo volvió a abrir la base `gestion_instalaciones_sueca` y el contacto ficticio `Prueba persistencia L1` siguió visible en Contactos.
-- La aplicación propia, los dos supuestos organizativos y el correo de prueba con MailHog están pendientes. Docker Compose queda como ampliación opcional.
+- Contactos, CRM y Calendario están disponibles para las pruebas estándar. Hay una solicitud ficticia en CRM en la etapa «Calificado» y una reunión de revisión asociada en Calendario; esto simula parte del proceso y no sustituye al módulo propio.
+- La decisión final del flujo, la validación de casos incorrectos, los dos supuestos organizativos y el correo de prueba con MailHog están pendientes. Docker Compose queda como ampliación opcional según la indicación oral del profesor.
 - No se ha iniciado el desarrollo del módulo propio; corresponde a L2.
 
 El progreso comprobable de L1 se mantiene en [`docs/L1-verificaciones.md`](docs/L1-verificaciones.md). La incidencia real durante la primera creación de la base se registra en [`docs/incidencias.md`](docs/incidencias.md).
