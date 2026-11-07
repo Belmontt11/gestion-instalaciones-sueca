@@ -43,7 +43,7 @@ El diseño conceptual de datos y permisos está en [`docs/diseno-inicial.md`](do
 - PostgreSQL está instalado y activo.
 - Odoo Server 16.0 se ha ejecutado desde el entorno virtual; la base inicial se creó y se ha iniciado sesión desde el navegador del portátil.
 - Odoo está configurado como servicio `systemd`, habilitado para arrancar con Ubuntu y comprobado activo después de reiniciar. La página de Aplicaciones volvió a abrir desde el navegador del portátil.
-- Odoo volvió a abrir la base `gestion_instalaciones_sueca` después del reinicio; queda pendiente comprobar la persistencia de un registro ficticio creado para la prueba.
+- Después de reiniciar Ubuntu, Odoo volvió a abrir la base `gestion_instalaciones_sueca` y el contacto ficticio `Prueba persistencia L1` siguió visible en Contactos.
 - La aplicación propia, los dos supuestos organizativos y el correo de prueba con MailHog están pendientes. Docker Compose queda como ampliación opcional.
 - No se ha iniciado el desarrollo del módulo propio; corresponde a L2.
 
