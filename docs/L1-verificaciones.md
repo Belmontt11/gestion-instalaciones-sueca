@@ -1,10 +1,10 @@
 # L1 · Verificaciones y evidencias
 
-**Entrega:** L1 junto con E1. **Fecha indicada en Aules:** 15/11/2026, 23:59 (Europe/Madrid).
+**Entrega:** L1 junto con E1. **Fecha indicada en Aules:** 15/11/2026.
 
 La evidencia debe conservarse en esta versión del repositorio. No se marcan como superadas las pruebas que aún no se han ejecutado.
 
-**Nota sobre Docker:** el texto escrito de E2 compartido para este trabajo describe Docker Compose y la comparación de dos despliegues; la indicación verbal más reciente del profesor, según la persona autora, dice que Docker es opcional. Este plan sigue esa indicación y prioriza el servicio manual. Si la evaluación finalmente exige RA2.b según el texto de E2, habrá que añadir la prueba de contenedores.
+**Nota sobre Docker:** el texto escrito de E2 compartido para este trabajo describe Docker Compose y la comparación de dos despliegues; el profesor dice que Docker es opcional.
 
 ## Tabla de comprobaciones
 
