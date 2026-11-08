@@ -34,7 +34,7 @@ El diseño conceptual de datos y permisos está en [`docs/diseno-inicial.md`](do
 - PostgreSQL para la base de datos de Odoo.
 - Python y un entorno virtual para las dependencias de Odoo.
 - Git y GitHub para el control de versiones y la publicación del proyecto.
-- Docker Compose queda como prueba opcional, según la indicación verbal más reciente del profesor. MailHog continúa pendiente para las pruebas de correo de E2.
+- Docker Compose queda como prueba opcional, según la indicación verbal más reciente del profesor. MailHog 1.0.1 está instalado como servicio de pruebas de correo; su interfaz se consulta desde el portátil mediante un túnel SSH.
 - Plantilla e instrucciones del servicio systemd en [`deploy/`](deploy/README.md), ajustadas a las rutas de esta VM y sin contraseñas.
 
 ## Estado actual
@@ -47,7 +47,7 @@ El diseño conceptual de datos y permisos está en [`docs/diseno-inicial.md`](do
 - Contactos, CRM y Calendario están disponibles para las pruebas estándar. Hay una solicitud ficticia en CRM en la etapa «Calificado» y una reunión de revisión asociada en Calendario; esto simula parte del proceso y no sustituye al módulo propio.
 - Se creó el usuario ficticio `prueba permisos` con acceso a Ventas limitado a sus propios documentos y sin permisos de Administración. Desde esa cuenta no apareció la oportunidad de Administrator y sí pudo crear y ver `Solicitud perfil limitado`.
 - Se creó el perfil ficticio `Personal gestor prueba` con acceso de Ventas a todos los documentos y sin permisos de Administración. Al quitar el filtro «Mi flujo», pudo ver las dos oportunidades y mover `Solicitud perfil limitado` de «Nuevo» a «Calificado». Esto prueba parcialmente la gestión separada con CRM estándar; no equivale a probar el futuro módulo ni un portal de solicitantes.
-- Aún falta completar y documentar los dos supuestos de E2: gestión básica por un perfil interno y gestión separada entre administración, personal gestor y solicitantes. También están pendientes la decisión final del flujo, la validación de casos incorrectos y el correo de prueba con MailHog. Docker Compose queda como ampliación opcional según la indicación oral del profesor.
+- Aún falta completar y documentar los dos supuestos de E2: gestión básica por un perfil interno y gestión separada entre administración, personal gestor y solicitantes. También están pendientes la decisión final del flujo y la validación de casos incorrectos. MailHog 1.0.1 está instalado como servicio; en Odoo se configuró «MailHog pruebas» en `127.0.0.1:1025`, sin cifrado ni autenticación. Se envió un correo ficticio a `prueba@example.com` y MailHog lo capturó; la evidencia está en [docs/prueba MailHog.png](docs/prueba%20MailHog.png). Docker Compose queda como ampliación opcional según la indicación oral del profesor.
 - No se ha iniciado el desarrollo del módulo propio; corresponde a L2.
 
 El progreso comprobable de L1 se mantiene en [`docs/L1-verificaciones.md`](docs/L1-verificaciones.md). La incidencia real durante la primera creación de la base se registra en [`docs/incidencias.md`](docs/incidencias.md).
