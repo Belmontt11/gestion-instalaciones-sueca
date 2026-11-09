@@ -22,13 +22,17 @@ La evidencia debe conservarse en esta versión del repositorio. No se marcan com
 | RA2.f · Reproducción, configuración e incidencias | Instrucciones reproducibles y configuración sin secretos | `.gitignore`, registro de incidencia y plantilla systemd sin credenciales preparados; instalación limpia aún pendiente | `.gitignore`, `deploy/odoo.service`, `docs/incidencias.md` | Añadir pasos de instalación limpios y ejemplo de configuración sin credenciales válidas |
 | Repositorio público, atribuciones y licencia | URL accesible sin sesión; licencia y créditos correctos | Repositorio público con README, licencia LGPL-3.0, atribuciones y commits iniciales; etiqueta L1 pendiente | `README.md`, `docs/atribuciones.md`, `LICENSE` | Verificar URL sin sesión; crear etiqueta L1 al cerrar las pruebas |
 
-## RA1.f · Relación entre servicio, Python y PostgreSQL
+## RA1.f · Cómo arranca Odoo y dónde guarda los datos
 
-- **Servicio systemd:** la unidad `/etc/systemd/system/odoo.service` define que el proceso se ejecuta como el usuario y grupo Linux `odoo`, en lugar de usar la cuenta de administrador del sistema. `Requires=postgresql.service` requiere PostgreSQL y `After=network.target postgresql.service` ordena el arranque de Odoo después de PostgreSQL.
-- **Python:** `ExecStart` llama a `/opt/odoo/venv/bin/python`, el Python del entorno virtual. Ese entorno mantiene las dependencias de Odoo separadas de los paquetes globales de Ubuntu.
-- **Configuración de Odoo:** la unidad pasa `--config=/opt/odoo/.odoorc`. Esta instalación usa el archivo `.odoorc`; la guía del curso lo denomina `odoo.conf`. Cumple la misma función: proporcionar opciones de la instancia de Odoo, incluidas las necesarias para conectarse con la base de datos. El archivo real no se publica porque puede contener contraseñas u otros valores privados.
-- **PostgreSQL y persistencia:** Odoo usa PostgreSQL como motor de base de datos. Se comprobó que existe `gestion_instalaciones_sueca` y que Odoo puede abrirla y mostrar sus contactos. La unidad declara PostgreSQL como dependencia para arrancar el servicio en el orden adecuado.
-- **Acceso web:** el servicio pasa `--http-interface=0.0.0.0` y se comprobó que Odoo escucha en `0.0.0.0:8069` dentro de la VM. La regla NAT de VirtualBox reenvía el puerto 8069 al portátil, desde donde se abre Odoo en `127.0.0.1:8069`.
+Al encender Ubuntu, **systemd** inicia Odoo automáticamente. La configuración que hace esto está en `/etc/systemd/system/odoo.service`. Odoo funciona con una cuenta propia del sistema llamada `odoo`; es distinta de la cuenta `Administrator` con la que se entra a la aplicación web. El sistema inicia PostgreSQL antes que Odoo.
+
+Odoo utiliza el Python preparado para él en `/opt/odoo/venv/`. Así sus componentes quedan separados de los programas generales de Ubuntu.
+
+Los ajustes de esta instalación están en `/opt/odoo/.odoorc`. La guía del curso llama a este archivo `odoo.conf`. Odoo lo consulta para saber cómo funcionar y conectarse con PostgreSQL. No publicamos el archivo real porque podría contener contraseñas u otros datos privados.
+
+**PostgreSQL guarda la información** de Odoo, como contactos y solicitudes. Comprobamos que existe la base `gestion_instalaciones_sueca` y que Odoo puede abrirla y mostrar sus contactos.
+
+Odoo atiende las conexiones web por el puerto `8069` dentro de la máquina virtual. VirtualBox reenvía ese puerto al portátil, por eso se abre la aplicación en `http://127.0.0.1:8069`.
 ## Preparación de la entrega en Aules
 
 La ficha `lliurament.md` o PDF se prepara para Aules al cerrar L1. Debe incluir URL pública, etiqueta `L1`, SHA completo del commit, resumen de lo que funciona, criterios trabajados y ubicación de las pruebas. No se debe inventar el SHA ni mover la etiqueta después de entregar; las revisiones requieren una etiqueta y un SHA nuevos.
