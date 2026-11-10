@@ -34,7 +34,7 @@ El diseño conceptual de datos y permisos está en [`docs/diseno-inicial.md`](do
 - Python 3.12.3 y un entorno virtual para Odoo.
 - Git y GitHub para guardar el código y el seguimiento de cambios.
 - MailHog 1.0.1 para comprobar el envío de correos ficticios.
-- Docker Compose queda fuera de la ruta mínima según la indicación verbal del profesor; la guía escrita de E2 debe revisarse si se requiere justificar esta decisión.
+- Docker Compose queda fuera de la ruta que voy a seguir; el profesor comentó que era opcional.
 
 ## Estado actual
 
@@ -47,7 +47,7 @@ El diseño conceptual de datos y permisos está en [`docs/diseno-inicial.md`](do
 
 ## Puesta en marcha y seguridad
 
-Odoo y MailHog ya están instalados y comprobados en esta VM. La guía [`deploy/README.md`](deploy/README.md) explica cómo instalar la unidad del servicio Odoo y comprobar el correo de prueba; todavía no documenta ni verifica todos los pasos para repetir desde cero la instalación completa en otra VM. La incidencia de la primera creación de la base de datos está en [`docs/incidencias.md`](docs/incidencias.md).
+Odoo, PostgreSQL, Python y MailHog ya están instalados y comprobados en esta VM. [`deploy/README.md`](deploy/README.md) reúne los pasos para repetir la instalación y configurar las pruebas. Todavía no hemos seguido la guía completa desde una VM limpia, así que falta comprobarla de principio a fin. La incidencia de la primera creación de la base de datos está en [`docs/incidencias.md`](docs/incidencias.md).
 
 En el repositorio se usan datos ficticios. No se deben publicar contraseñas, tokens, archivos de configuración privados como `.odoorc` ni copias de la base de datos.
 
@@ -57,4 +57,4 @@ La autoría, el material docente y la ayuda utilizada se describen en [`docs/atr
 
 ## Licencia
 
-El proyecto se distribuye bajo **GNU Lesser General Public License v3.0 (LGPL-3.0)**. El texto completo está en [`LICENSE`](LICENSE). El manifiesto del módulo propio indicará `LGPL-3` cuando se cree en L2.
+El proyecto se distribuye bajo la **GNU Lesser General Public License v3.0 (LGPL-3.0)**. El texto completo está en [`LICENSE`](LICENSE). El manifiesto del módulo propio indicará `LGPL-3` cuando se cree en L2.
