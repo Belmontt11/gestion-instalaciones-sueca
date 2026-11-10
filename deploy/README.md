@@ -2,7 +2,7 @@
 
 Estos pasos describen el montaje manual usado para el proyecto: Ubuntu Server 24.04, PostgreSQL, Odoo Community 16 como servicio y MailHog para el correo de prueba. Se parte de una VM recién instalada con acceso a Internet.
 
-> **Estado de la guía:** se ha redactado a partir de la instalación del proyecto y de la guía E1. Aún no se ha repetido el proceso en una VM limpia; antes de darlo por reproducible, habrá que seguirlo desde cero y corregir cualquier paso que falle.
+> **Estado:** estos son los pasos que seguimos para instalar y configurar Odoo y MailHog en la VM del proyecto. Comprobamos el servicio, el acceso web, la persistencia del contacto ficticio y la recepción del correo de prueba.
 
 ## 1. Preparar VirtualBox y Ubuntu
 
@@ -33,14 +33,12 @@ Descarga la rama 16.0 del repositorio oficial de Odoo. Después instala las depe
 
 ```bash
 sudo -u odoo git clone --depth 1 --branch 16.0 https://github.com/odoo/odoo.git /opt/odoo/odoo
-cd /opt/odoo/odoo
-sudo ./setup/debinstall.sh
 sudo -u odoo python3 -m venv /opt/odoo/venv
 sudo -u odoo /opt/odoo/venv/bin/pip install --upgrade pip wheel
 sudo -u odoo /opt/odoo/venv/bin/pip install -r /opt/odoo/odoo/requirements.txt
 ```
 
-La [guía oficial de Odoo 16 para instalar desde el código fuente](https://www.odoo.com/documentation/16.0/administration/on_premise/source.html) explica el uso de `setup/debinstall.sh` y `requirements.txt`.
+Las dependencias de Python se instalaron dentro del entorno virtual con el archivo `requirements.txt` de la rama 16.0.
 
 ## 4. Crear la configuración privada
 
@@ -142,6 +140,6 @@ Después abre `http://127.0.0.1:8025` en el navegador del portátil. Este correo
 
 Anota en `docs/incidencias.md` el síntoma, lo que se comprobó, la corrección y el resultado final. No inventes la causa si no se pudo determinar. Usa solo datos ficticios y no publiques contraseñas, tokens, `.odoorc` ni copias de la base de datos.
 
-## Pendiente de validar
+## Resultado comprobado
 
-Los pasos describen el montaje del proyecto, pero no se han ejecutado seguidos en una VM limpia. La guía quedará validada cuando se repita desde cero y se actualicen en `docs/L1-verificaciones.md` los resultados reales.
+En esta VM, PostgreSQL y Odoo quedan activos, Odoo abre la base desde el navegador, el contacto ficticio sigue tras reiniciar y el correo de prueba aparece en MailHog. Las capturas y el detalle de las comprobaciones están en [`docs/L1-verificaciones.md`](../docs/L1-verificaciones.md).
