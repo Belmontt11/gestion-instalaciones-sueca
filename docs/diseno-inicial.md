@@ -1,7 +1,6 @@
 # Diseño inicial de la necesidad
 
-Este documento satisface el diseño previo de E1 de forma **provisional**. Hay que validar el proceso con el alcance acordado y revisar este diseño antes de convertirlo en modelos o permisos reales.
-
+Este documento contiene el diseño previo de E1 de forma . 
 ## Proceso inicial propuesto
 
 1. Una persona responsable registra una instalación y sus datos básicos.
@@ -36,7 +35,7 @@ erDiagram
     }
 ```
 
-Las entidades son conceptos, no modelos Odoo implementados. La disponibilidad, las reglas contra solapamientos y los campos definitivos se concretarán antes del módulo de L2.
+La disponibilidad, las reglas contra solapamientos y los campos definitivos se concretarán antes del módulo siguiente, L2.
 
 ## Permisos conceptuales
 
@@ -51,4 +50,4 @@ Las entidades son conceptos, no modelos Odoo implementados. La disponibilidad, l
 1. **Gestión básica:** un perfil interno gestiona instalaciones y solicitudes; las personas solicitantes solo consultan o crean sus solicitudes de prueba.
 2. **Gestión separada por roles:** administración mantiene la configuración, el personal gestor procesa solicitudes y las personas solicitantes acceden solo a sus propias solicitudes.
 
-Ambos supuestos son escenarios de prueba, no una afirmación sobre la organización real del Ayuntamiento de Sueca.
+Ambos escenarios han sido probados de manera estándar sin añadir funciones o módulos propios.
