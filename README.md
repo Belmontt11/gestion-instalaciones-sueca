@@ -1,65 +1,60 @@
 # Gestión de instalaciones deportivas de Sueca
 
-Proyecto académico de **2.º de DAM, módulo SGE semipresencial**, desarrollado sobre **Odoo Community 16**. La primera entrega, L1, reúne evidencias de E1 y E2. La fecha límite indicada en Aules es el **15 de noviembre de 2026 a las 23:59**.
+Proyecto académico de **2.º de DAM, módulo SGE semipresencial**, basado en **Odoo Community 16**. L1 reúne el diseño inicial y las comprobaciones realizadas en E1 y E2.
 
 ## Necesidad
 
-El proyecto propone facilitar la organización de la información y la gestión de las instalaciones deportivas de Sueca. La situación actual y las necesidades concretas de la entidad se validarán durante el análisis; este README no presupone fallos de los procesos municipales existentes.
+El proyecto propone organizar la información y las solicitudes de uso de las instalaciones deportivas de Sueca. Las necesidades y el proceso definitivos se concretarán durante el análisis; no se presupone que los procesos actuales del Ayuntamiento tengan problemas.
 
 ## Personas destinatarias
 
-- Personal responsable de administrar las instalaciones y su disponibilidad.
-- Personas que necesiten consultar o solicitar el uso de una instalación.
+- Personal responsable de administrar instalaciones y revisar solicitudes.
+- Personas que quieran consultar o solicitar el uso de una instalación.
 
-Los perfiles, permisos y procesos definitivos están pendientes de validar.
+Los perfiles y permisos son una propuesta inicial pendiente de validación.
 
-## Objetivo y alcance inicial
+## Objetivo y funcionalidades previstas
 
-El objetivo final es desarrollar un módulo propio de Odoo Community 16 para apoyar un proceso de gestión de instalaciones deportivas. El módulo propio se desarrollará en L2; en L1 se prepara y verifica el entorno, se define la necesidad y se documentan los supuestos iniciales.
+El objetivo final es desarrollar en L2 un módulo propio para apoyar la gestión de instalaciones deportivas. En L1 se prepara el entorno, se define la necesidad y se comprueban funciones estándar de Odoo.
 
-Flujo inicial propuesto, pendiente de validación:
+El flujo propuesto es:
 
-1. Registrar una instalación y la información básica de disponibilidad.
-2. Recibir una solicitud de uso para una instalación y una franja horaria.
-3. Revisar la solicitud y comunicar o registrar su estado.
+1. Registrar instalaciones y su información básica.
+2. Recibir solicitudes de uso para una instalación, fecha y horario.
+3. Revisar cada solicitud y registrar su estado.
 
-Quedan fuera del alcance inicial el uso en producción por el Ayuntamiento, los datos personales reales, los pagos y la integración con sistemas municipales. Se revisará el alcance al concretar los requisitos.
+Este flujo aún no está implementado en un módulo propio. Quedan fuera del alcance inicial el uso en producción por el Ayuntamiento, los datos personales reales, los pagos y las integraciones con sistemas municipales.
 
-El diseño conceptual de datos y permisos está en [`docs/diseno-inicial.md`](docs/diseno-inicial.md). Es una propuesta, no describe modelos ya implementados.
+El diseño conceptual de datos y permisos está en [`docs/diseno-inicial.md`](docs/diseno-inicial.md).
 
 ## Tecnologías y entorno
 
-- Odoo Community 16, instalado desde el código fuente en Ubuntu Server 24.04.
-- Ubuntu Server 24.04 ejecutado en una máquina virtual de VirtualBox con red NAT.
-- PostgreSQL para la base de datos de Odoo.
-- Python y un entorno virtual para las dependencias de Odoo.
-- Git y GitHub para el control de versiones y la publicación del proyecto.
-- Docker Compose queda como prueba opcional, según la indicación verbal más reciente del profesor. MailHog 1.0.1 está instalado como servicio de pruebas de correo; su interfaz se consulta desde el portátil mediante un túnel SSH.
-- Plantilla e instrucciones del servicio systemd en [`deploy/`](deploy/README.md), ajustadas a las rutas de esta VM y sin contraseñas.
+- Odoo Community 16.0 en Ubuntu Server 24.04.5, dentro de VirtualBox.
+- PostgreSQL 16.15 guarda la base de datos de Odoo.
+- Python 3.12.3 y un entorno virtual para Odoo.
+- Git y GitHub para guardar el código y el seguimiento de cambios.
+- MailHog 1.0.1 para comprobar el envío de correos ficticios.
+- Docker Compose queda fuera de la ruta mínima según la indicación verbal del profesor; la guía escrita de E2 debe revisarse si se requiere justificar esta decisión.
 
 ## Estado actual
 
-- La VM Ubuntu Server 24.04 está preparada y la red NAT reenvía Odoo `8069 → 8069` y SSH `2222 → 22` al portátil.
-- PostgreSQL está instalado y activo.
-- Odoo Server 16.0 se ha ejecutado desde el entorno virtual; la base inicial se creó y se ha iniciado sesión desde el navegador del portátil.
-- Odoo está configurado como servicio `systemd`, habilitado para arrancar con Ubuntu y comprobado activo después de reiniciar. La página de Aplicaciones volvió a abrir desde el navegador del portátil.
-- Después de reiniciar Ubuntu, Odoo volvió a abrir la base `gestion_instalaciones_sueca` y el contacto ficticio `Prueba persistencia L1` siguió visible en Contactos.
-- Contactos, CRM y Calendario están disponibles para las pruebas estándar. Hay una solicitud ficticia en CRM en la etapa «Calificado» y una reunión de revisión asociada en Calendario; esto simula parte del proceso y no sustituye al módulo propio.
-- Se creó el usuario ficticio `prueba permisos` con acceso a Ventas limitado a sus propios documentos y sin permisos de Administración. Desde esa cuenta no apareció la oportunidad de Administrator y sí pudo crear y ver `Solicitud perfil limitado`.
-- Se creó el perfil ficticio `Personal gestor prueba` con acceso de Ventas a todos los documentos y sin permisos de Administración. Al quitar el filtro «Mi flujo», pudo ver las dos oportunidades y mover `Solicitud perfil limitado` de «Nuevo» a «Calificado». Esto prueba parcialmente la gestión separada con CRM estándar; no equivale a probar el futuro módulo ni un portal de solicitantes.
-- Aún falta completar y documentar los dos supuestos de E2: gestión básica por un perfil interno y gestión separada entre administración, personal gestor y solicitantes. También están pendientes la decisión final del flujo y la validación de casos incorrectos. MailHog 1.0.1 está instalado como servicio; en Odoo se configuró «MailHog pruebas» en `127.0.0.1:1025`, sin cifrado ni autenticación. Se envió un correo ficticio a `prueba@example.com` y MailHog lo capturó; la evidencia está en [docs/prueba MailHog.png](docs/prueba%20MailHog.png). Docker Compose queda como ampliación opcional según la indicación oral del profesor.
-- No se ha iniciado el desarrollo del módulo propio; corresponde a L2.
+- Odoo está configurado como servicio de Ubuntu y se comprobó activo tras reiniciar la máquina virtual.
+- La base `gestion_instalaciones_sueca` se abre desde el navegador del portátil. El contacto ficticio `Prueba persistencia L1` siguió visible tras reiniciar Ubuntu.
+- Contactos, CRM y Calendario se usan para pruebas con datos ficticios. En CRM se creó una solicitud y se asoció una reunión; esto simula parte del proceso, no sustituye al módulo propio.
+- Se probó parcialmente la separación de acceso con los perfiles ficticios `prueba permisos` y `Personal gestor prueba`. La prueba usa CRM estándar y no demuestra todavía el acceso de solicitantes a sus propias solicitudes en un portal o módulo propio.
+- MailHog recibió un correo ficticio enviado desde Odoo. La evidencia está en [`docs/prueba MailHog.png`](docs/prueba%20MailHog.png).
+- El módulo propio no se ha iniciado; corresponde a L2. Los resultados y pendientes de L1 están en [`docs/L1-verificaciones.md`](docs/L1-verificaciones.md).
 
-El progreso comprobable de L1 se mantiene en [`docs/L1-verificaciones.md`](docs/L1-verificaciones.md). La incidencia real durante la primera creación de la base se registra en [`docs/incidencias.md`](docs/incidencias.md).
+## Puesta en marcha y seguridad
 
-## Reproducibilidad, datos y seguridad
+Odoo y MailHog ya están instalados y comprobados en esta VM. La guía [`deploy/README.md`](deploy/README.md) explica cómo instalar la unidad del servicio Odoo y comprobar el correo de prueba; todavía no documenta ni verifica todos los pasos para repetir desde cero la instalación completa en otra VM. La incidencia de la primera creación de la base de datos está en [`docs/incidencias.md`](docs/incidencias.md).
 
-La guía de instalación desde una copia limpia, la configuración de ejemplo y los pasos para inicializar datos ficticios y ejecutar pruebas se completarán al documentar la configuración reproducible de E2 y el módulo de L2. En el repositorio solo se usarán datos ficticios. No se deben subir contraseñas, tokens, archivos `.env` reales, configuraciones privadas ni copias de bases de datos.
+En el repositorio se usan datos ficticios. No se deben publicar contraseñas, tokens, archivos de configuración privados como `.odoorc` ni copias de la base de datos.
 
-## Autoría, ayuda y atribuciones
+## Autoría y atribuciones
 
-La autoría y las atribuciones de código, bibliotecas y ayuda se completarán en [`docs/atribuciones.md`](docs/atribuciones.md). No se incluye aquí el PDF docente ni se copia su contenido de forma extensa.
+La autoría, el material docente y la ayuda utilizada se describen en [`docs/atribuciones.md`](docs/atribuciones.md). El PDF docente no se redistribuye aquí.
 
 ## Licencia
 
-El proyecto se distribuye bajo la **GNU Lesser General Public License v3.0 (LGPL-3.0)**. Consulta el texto completo en [`LICENSE`](LICENSE). Cuando exista el módulo propio, su manifiesto indicará `LGPL-3`.
+El proyecto se distribuye bajo **GNU Lesser General Public License v3.0 (LGPL-3.0)**. El texto completo está en [`LICENSE`](LICENSE). El manifiesto del módulo propio indicará `LGPL-3` cuando se cree en L2.
