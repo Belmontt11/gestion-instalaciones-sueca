@@ -47,7 +47,7 @@ El diseño conceptual de datos y permisos está en [`docs/diseno-inicial.md`](do
 
 ## Puesta en marcha y seguridad
 
-Odoo, PostgreSQL, Python y MailHog ya están instalados y comprobados en esta VM. [`deploy/README.md`](deploy/README.md) reúne los pasos para repetir la instalación y configurar las pruebas. Todavía no hemos seguido la guía completa desde una VM limpia, así que falta comprobarla de principio a fin. La incidencia de la primera creación de la base de datos está en [`docs/incidencias.md`](docs/incidencias.md).
+Odoo, PostgreSQL, Python y MailHog ya están instalados y comprobados en esta VM. [`deploy/README.md`](deploy/README.md) recoge los pasos que seguimos para la instalación y las pruebas. La incidencia de la primera creación de la base de datos está en [`docs/incidencias.md`](docs/incidencias.md).
 
 En el repositorio se usan datos ficticios. No se deben publicar contraseñas, tokens, archivos de configuración privados como `.odoorc` ni copias de la base de datos.
 
