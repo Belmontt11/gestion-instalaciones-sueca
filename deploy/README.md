@@ -1,75 +1,147 @@
-# Guía breve: servicio Odoo en la VM preparada
+# Guía de instalación y comprobación de Odoo 16
 
-Odoo, PostgreSQL, Python y MailHog ya están instalados y comprobados en la VM de este proyecto. Esta guía explica cómo instalar o revisar el servicio Odoo y comprobar el correo de prueba. No cubre la instalación de esos componentes desde cero; los pasos completos para repetir el montaje en una VM limpia aún no se han documentado ni probado.
+Estos pasos describen el montaje manual usado para el proyecto: Ubuntu Server 24.04, PostgreSQL, Odoo Community 16 como servicio y MailHog para el correo de prueba. Se parte de una VM recién instalada con acceso a Internet.
 
-## Requisitos previos
+> **Estado de la guía:** se ha redactado a partir de la instalación del proyecto y de la guía E1. Aún no se ha repetido el proceso en una VM limpia; antes de darlo por reproducible, habrá que seguirlo desde cero y corregir cualquier paso que falle.
 
-- VM con Ubuntu Server 24.04.5 y PostgreSQL instalado.
-- Código de Odoo 16 en `/opt/odoo/odoo`.
-- Entorno virtual de Python en `/opt/odoo/venv`.
-- Usuario del sistema `odoo` y archivo privado `/opt/odoo/.odoorc` ya configurados.
-- Adaptador NAT de VirtualBox con SSH del portátil al puerto invitado 22 reenviado como puerto anfitrión 2222.
+## 1. Preparar VirtualBox y Ubuntu
 
-El archivo `.odoorc` puede contener datos privados: no se copia al repositorio ni se comparte.
+En VirtualBox configura el adaptador de red como **NAT** y estas redirecciones: SSH `2222 → 22` y Odoo `8069 → 8069`. Instala Ubuntu Server 24.04 y entra con el usuario que tenga permisos de `sudo`.
 
-## 1. Copiar la unidad desde Windows a la VM
+Actualiza Ubuntu e instala los paquetes base:
 
-Abre PowerShell en el portátil. Si el repositorio está en `Documentos`, ejecuta:
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y git postgresql postgresql-contrib python3 python3-venv python3-pip python3-dev build-essential libldap2-dev libpq-dev libsasl2-dev curl
+sudo systemctl enable --now postgresql
+```
 
-~~~powershell
-scp -P 2222 "$HOME\Documents\gestion-instalaciones-sueca\deploy\odoo.service" estudiant@127.0.0.1:/tmp/odoo.service
-~~~
+## 2. Crear las cuentas necesarias
 
-Introduce la contraseña de Ubuntu cuando SSH la solicite. No la guardes en el repositorio. Si guardaste el proyecto en otra carpeta, adapta la ruta del archivo.
+Crea el usuario de PostgreSQL que usará Odoo y el usuario de sistema que ejecutará el servicio:
 
-## 2. Instalar e iniciar el servicio en Ubuntu
+```bash
+sudo -u postgres createuser --createdb --no-createrole --no-superuser odoo
+sudo adduser --system --home=/opt/odoo --group odoo
+```
 
-En la terminal de Ubuntu, ejecuta:
+El usuario de sistema `odoo` ejecuta el proceso; la cuenta `Administrator` es la que se usa después para entrar en la aplicación web.
 
-~~~bash
-sudo install -o root -g root -m 644 /tmp/odoo.service /etc/systemd/system/odoo.service
+## 3. Descargar Odoo e instalar sus dependencias
+
+Descarga la rama 16.0 del repositorio oficial de Odoo. Después instala las dependencias de Ubuntu y prepara el entorno virtual:
+
+```bash
+sudo -u odoo git clone --depth 1 --branch 16.0 https://github.com/odoo/odoo.git /opt/odoo/odoo
+cd /opt/odoo/odoo
+sudo ./setup/debinstall.sh
+sudo -u odoo python3 -m venv /opt/odoo/venv
+sudo -u odoo /opt/odoo/venv/bin/pip install --upgrade pip wheel
+sudo -u odoo /opt/odoo/venv/bin/pip install -r /opt/odoo/odoo/requirements.txt
+```
+
+La [guía oficial de Odoo 16 para instalar desde el código fuente](https://www.odoo.com/documentation/16.0/administration/on_premise/source.html) explica el uso de `setup/debinstall.sh` y `requirements.txt`.
+
+## 4. Crear la configuración privada
+
+Crea `/opt/odoo/.odoorc` con los valores locales. Sustituye el texto de ejemplo por una contraseña maestra propia; no la publiques ni añadas este archivo al repositorio:
+
+```ini
+[options]
+admin_passwd = CAMBIAR_POR_UNA_CLAVE_PROPIA
+db_user = odoo
+addons_path = /opt/odoo/odoo/addons
+```
+
+```bash
+sudo chown odoo:odoo /opt/odoo/.odoorc
+sudo chmod 600 /opt/odoo/.odoorc
+```
+
+La contraseña maestra protege las operaciones con bases de datos; es distinta de la contraseña de acceso a Odoo.
+
+## 5. Instalar e iniciar el servicio Odoo
+
+Clona este repositorio en la VM y copia la plantilla del servicio:
+
+```bash
+git clone https://github.com/Belmontt11/gestion-instalaciones-sueca.git ~/gestion-instalaciones-sueca
+sudo install -o root -g root -m 644 ~/gestion-instalaciones-sueca/deploy/odoo.service /etc/systemd/system/odoo.service
 sudo systemd-analyze verify /etc/systemd/system/odoo.service
 sudo systemctl daemon-reload
 sudo systemctl enable --now odoo
 systemctl is-enabled odoo
 systemctl is-active odoo
-~~~
+```
 
-Los dos últimos comandos deben responder `enabled` y `active`. `enable --now` deja Odoo iniciado ahora y preparado para arrancar junto a Ubuntu.
+Los dos últimos comandos deben responder `enabled` y `active`. La plantilla usa `/opt/odoo/venv`, `/opt/odoo/odoo/odoo-bin` y el archivo privado `/opt/odoo/.odoorc`.
 
-## 3. Comprobar la base, el puerto y el acceso
+## 6. Crear la base y comprobar Odoo
 
-En Ubuntu:
+Desde el navegador del portátil abre `http://127.0.0.1:8069`. Crea la base `gestion_instalaciones_sueca`, usando la contraseña maestra configurada en `.odoorc`, un correo ficticio y una contraseña propia para `Administrator`. No marques datos de demostración si quieres mantener la base de prueba vacía.
 
-~~~bash
+En Ubuntu, comprueba PostgreSQL, la base, el puerto y el servicio:
+
+```bash
+sudo -u postgres psql -Atc "SHOW server_version;"
 sudo -u postgres psql -Atc "SELECT datname FROM pg_database WHERE datname='gestion_instalaciones_sueca';"
 sudo ss -ltnp 'sport = :8069'
-~~~
-
-La primera comprobación debe mostrar `gestion_instalaciones_sueca`; la segunda, el puerto `8069` escuchando en la VM. Desde el navegador del portátil, abre `http://127.0.0.1:8069` (la regla NAT de VirtualBox reenvía el puerto 8069).
-
-Para revisar el servicio después de reiniciar Ubuntu:
-
-~~~bash
 sudo systemctl status odoo --no-pager
-~~~
+```
 
-Debe aparecer `active (running)`. El servicio de esta guía fue comprobado en esta VM; repetir una instalación desde cero requiere documentar y verificar también la instalación inicial de Odoo y PostgreSQL.
+Abre la base desde el navegador para comprobar que Odoo se conecta a PostgreSQL. Crea un contacto ficticio y reinicia Ubuntu; vuelve a entrar y confirma que el contacto sigue ahí. Guarda las salidas y capturas en `docs/L1-verificaciones.md`.
 
-## 4. Probar un correo con MailHog
+## 7. Instalar MailHog y probar el correo
 
-En el servidor saliente de Odoo se usó `127.0.0.1`, puerto `1025`, sin cifrado ni autenticación. Se envió un mensaje ficticio a `prueba@example.com` y se comprobó su recepción en MailHog. La captura está en [`../docs/prueba MailHog.png`](../docs/prueba%20MailHog.png).
+Descarga MailHog 1.0.1 desde su [página oficial de versiones](https://github.com/mailhog/MailHog/releases/tag/v1.0.1) y crea un servicio local que escuche solo dentro de la VM:
 
-Para abrir la bandeja MailHog desde el portátil, crea un túnel SSH y deja esa terminal abierta:
+```bash
+sudo curl -fL https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64 -o /usr/local/bin/mailhog
+sudo chmod 755 /usr/local/bin/mailhog
+sudo useradd --system --no-create-home --shell /usr/sbin/nologin mailhog
+sudo nano /etc/systemd/system/mailhog.service
+```
 
-~~~powershell
+Escribe este contenido en `mailhog.service`:
+
+```ini
+[Unit]
+Description=MailHog para pruebas de correo
+After=network.target
+
+[Service]
+Type=simple
+User=mailhog
+Group=mailhog
+ExecStart=/usr/local/bin/mailhog -smtp-bind-addr 127.0.0.1:1025 -ui-bind-addr 127.0.0.1:8025 -api-bind-addr 127.0.0.1:8025
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Guarda el archivo y activa el servicio:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now mailhog
+systemctl is-active mailhog
+```
+
+Debe responder `active`. MailHog usa SMTP `1025` y la interfaz web `8025`; ambos quedan limitados a la VM.
+
+En Odoo configura el servidor saliente de pruebas con servidor `127.0.0.1`, puerto `1025`, sin cifrado ni autenticación. Envía un correo a `prueba@example.com` y comprueba que aparece en la bandeja de MailHog. Para abrir su interfaz desde el portátil, deja activo este túnel SSH:
+
+```bash
 ssh -L 8025:127.0.0.1:8025 -p 2222 estudiant@127.0.0.1
-~~~
+```
 
-Después abre `http://127.0.0.1:8025` en el navegador del portátil. MailHog y Odoo están dentro de la VM; el túnel permite ver la bandeja desde el portátil.
+Después abre `http://127.0.0.1:8025` en el navegador del portátil. Este correo queda en el entorno de pruebas; no se envía a una dirección real.
 
-Esta prueba confirma el correo local de laboratorio, no el envío a destinatarios reales. No introduzcas datos personales ni envíes mensajes reales desde esta configuración.
+## 8. Incidencias y datos
 
-## Archivo del servicio
+Anota en `docs/incidencias.md` el síntoma, lo que se comprobó, la corrección y el resultado final. No inventes la causa si no se pudo determinar. Usa solo datos ficticios y no publiques contraseñas, tokens, `.odoorc` ni copias de la base de datos.
 
-`odoo.service` es la plantilla de la unidad utilizada en esta VM. Define el usuario del sistema, la carpeta de Odoo, el entorno Python, el archivo de configuración privado y el reinicio automático si Odoo se detiene.
+## Pendiente de validar
+
+Los pasos describen el montaje del proyecto, pero no se han ejecutado seguidos en una VM limpia. La guía quedará validada cuando se repita desde cero y se actualicen en `docs/L1-verificaciones.md` los resultados reales.
