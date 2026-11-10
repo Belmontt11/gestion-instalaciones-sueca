@@ -6,9 +6,9 @@ Estos pasos describen el montaje manual usado para el proyecto: Ubuntu Server 24
 
 ## 1. Preparar VirtualBox y Ubuntu
 
-En VirtualBox configura el adaptador de red como **NAT** y estas redirecciones: SSH `2222 → 22` y Odoo `8069 → 8069`. Instala Ubuntu Server 24.04 y entra con el usuario que tenga permisos de `sudo`.
+En VirtualBox configuramos el adaptador de red como **NAT** y estas redirecciones: SSH `2222 → 22` y Odoo `8069 → 8069`. Instalamos Ubuntu Server 24.04 y entramos con el usuario que tenga permisos de `sudo`.
 
-Actualiza Ubuntu e instala los paquetes base:
+Actualizamos Ubuntu e instalamos los paquetes base:
 
 ```bash
 sudo apt update && sudo apt upgrade -y
@@ -18,7 +18,7 @@ sudo systemctl enable --now postgresql
 
 ## 2. Crear las cuentas necesarias
 
-Crea el usuario de PostgreSQL que usará Odoo y el usuario de sistema que ejecutará el servicio:
+Creamos el usuario de PostgreSQL que usará Odoo y el usuario de sistema que ejecutará el servicio:
 
 ```bash
 sudo -u postgres createuser --createdb --no-createrole --no-superuser odoo
@@ -29,7 +29,7 @@ El usuario de sistema `odoo` ejecuta el proceso; la cuenta `Administrator` es la
 
 ## 3. Descargar Odoo e instalar sus dependencias
 
-Descarga la rama 16.0 del repositorio oficial de Odoo. Después instala las dependencias de Ubuntu y prepara el entorno virtual:
+Descargar la rama 16.0 del repositorio oficial de Odoo. Después instalar las dependencias de Ubuntu y preparar el entorno virtual:
 
 ```bash
 sudo -u odoo git clone --depth 1 --branch 16.0 https://github.com/odoo/odoo.git /opt/odoo/odoo
@@ -42,11 +42,11 @@ Las dependencias de Python se instalaron dentro del entorno virtual con el archi
 
 ## 4. Crear la configuración privada
 
-Crea `/opt/odoo/.odoorc` con los valores locales. Sustituye el texto de ejemplo por una contraseña maestra propia; no la publiques ni añadas este archivo al repositorio:
+Creamos `/opt/odoo/.odoorc` con los valores locales. Creamos una contraseña propia.
 
 ```ini
 [options]
-admin_passwd = CAMBIAR_POR_UNA_CLAVE_PROPIA
+admin_passwd = PASSWORD_PROPIA
 db_user = odoo
 addons_path = /opt/odoo/odoo/addons
 ```
@@ -60,7 +60,7 @@ La contraseña maestra protege las operaciones con bases de datos; es distinta d
 
 ## 5. Instalar e iniciar el servicio Odoo
 
-Clona este repositorio en la VM y copia la plantilla del servicio:
+Clonamos este repositorio en la VM y de esta manera copiamos la plantilla del servicio:
 
 ```bash
 git clone https://github.com/Belmontt11/gestion-instalaciones-sueca.git ~/gestion-instalaciones-sueca
@@ -76,7 +76,7 @@ Los dos últimos comandos deben responder `enabled` y `active`. La plantilla usa
 
 ## 6. Crear la base y comprobar Odoo
 
-Desde el navegador del portátil abre `http://127.0.0.1:8069`. Crea la base `gestion_instalaciones_sueca`, usando la contraseña maestra configurada en `.odoorc`, un correo ficticio y una contraseña propia para `Administrator`. No marques datos de demostración si quieres mantener la base de prueba vacía.
+Desde el navegador del portátil abrimos `http://127.0.0.1:8069`. Creamos la base `gestion_instalaciones_sueca`, usando la contraseña maestra configurada en `.odoorc`, un correo ficticio y una contraseña propia para `Administrator`.
 
 En Ubuntu, comprueba PostgreSQL, la base, el puerto y el servicio:
 
@@ -87,11 +87,11 @@ sudo ss -ltnp 'sport = :8069'
 sudo systemctl status odoo --no-pager
 ```
 
-Abre la base desde el navegador para comprobar que Odoo se conecta a PostgreSQL. Crea un contacto ficticio y reinicia Ubuntu; vuelve a entrar y confirma que el contacto sigue ahí. Guarda las salidas y capturas en `docs/L1-verificaciones.md`.
+Abrimos la base desde el navegador para comprobar que Odoo se conecta a PostgreSQL. Creamos un contacto ficticio y reiniciamos Ubuntu; volvemos a entrar y confirmaremos que el contacto sigue ahí. Capturas en `docs/L1-verificaciones.md`.
 
 ## 7. Instalar MailHog y probar el correo
 
-Descarga MailHog 1.0.1 desde su [página oficial de versiones](https://github.com/mailhog/MailHog/releases/tag/v1.0.1) y crea un servicio local que escuche solo dentro de la VM:
+Descargamos MailHog 1.0.1 desde su [página oficial de versiones](https://github.com/mailhog/MailHog/releases/tag/v1.0.1) y creamos un servicio local que escuche solo dentro de la VM:
 
 ```bash
 sudo curl -fL https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64 -o /usr/local/bin/mailhog
@@ -100,7 +100,7 @@ sudo useradd --system --no-create-home --shell /usr/sbin/nologin mailhog
 sudo nano /etc/systemd/system/mailhog.service
 ```
 
-Escribe este contenido en `mailhog.service`:
+Contenido en `mailhog.service`:
 
 ```ini
 [Unit]
@@ -118,7 +118,7 @@ Restart=on-failure
 WantedBy=multi-user.target
 ```
 
-Guarda el archivo y activa el servicio:
+Guardamos el archivo y activamos el servicio:
 
 ```bash
 sudo systemctl daemon-reload
@@ -128,17 +128,17 @@ systemctl is-active mailhog
 
 Debe responder `active`. MailHog usa SMTP `1025` y la interfaz web `8025`; ambos quedan limitados a la VM.
 
-En Odoo configura el servidor saliente de pruebas con servidor `127.0.0.1`, puerto `1025`, sin cifrado ni autenticación. Envía un correo a `prueba@example.com` y comprueba que aparece en la bandeja de MailHog. Para abrir su interfaz desde el portátil, deja activo este túnel SSH:
+En Odoo configuraremos el servidor saliente de pruebas con servidor `127.0.0.1`, puerto `1025`, sin cifrado ni autenticación. Enviamos un correo a `prueba@example.com` y comprobamos que aparece en la bandeja de MailHog. Para abrir su interfaz desde el portátil, dejaremos activo este túnel SSH:
 
 ```bash
 ssh -L 8025:127.0.0.1:8025 -p 2222 estudiant@127.0.0.1
 ```
 
-Después abre `http://127.0.0.1:8025` en el navegador del portátil. Este correo queda en el entorno de pruebas; no se envía a una dirección real.
+Después abriremos `http://127.0.0.1:8025` en el navegador del portátil. 
 
 ## 8. Incidencias y datos
 
-Anota en `docs/incidencias.md` el síntoma, lo que se comprobó, la corrección y el resultado final. No inventes la causa si no se pudo determinar. Usa solo datos ficticios y no publiques contraseñas, tokens, `.odoorc` ni copias de la base de datos.
+Anotaciones en `docs/incidencias.md` acerca del síntoma, comprobaciones, la corrección y el resultado final. 
 
 ## Resultado comprobado
 
