@@ -38,9 +38,9 @@ El diseño conceptual de datos y permisos está en [`docs/diseno-inicial.md`](do
 - Odoo está configurado como servicio de Ubuntu y se comprobó activo tras reiniciar la máquina virtual.
 - La base `gestion_instalaciones_sueca` se abre desde el navegador del portátil. El contacto ficticio `Prueba persistencia L1` siguió visible tras reiniciar Ubuntu.
 - Contactos, CRM y Calendario se usan para pruebas con datos ficticios. En CRM se creó una solicitud y se asoció una reunión; esto simula parte del proceso, no sustituye al módulo propio.
-- Se probó parcialmente la separación de acceso con los perfiles ficticios `prueba permisos` y `Personal gestor prueba`. 
+- Se probó la separación de acceso con los perfiles ficticios `prueba permisos` y `Personal gestor prueba`. 
 - MailHog recibió un correo ficticio enviado desde Odoo. La evidencia está en [`docs/prueba MailHog.png`](docs/prueba%20MailHog.png).
-- El módulo propio no se ha iniciado; corresponde a L2. Los resultados y pendientes de L1 están en [`docs/L1-verificaciones.md`](docs/L1-verificaciones.md).
+- El módulo propio no se ha iniciado; corresponde a L2. Los resultados de L1 están en [`docs/L1-verificaciones.md`](docs/L1-verificaciones.md).
 
 ## Puesta en marcha y seguridad
 
@@ -48,7 +48,7 @@ Odoo, PostgreSQL, Python y MailHog ya están instalados y comprobados en esta VM
 
 ## Autoría y atribuciones
 
-La autoría, el material docente y la ayuda utilizada se describen en [`docs/atribuciones.md`](docs/atribuciones.md). El PDF docente no se redistribuye aquí.
+La autoría y la ayuda utilizada se describen en [`docs/atribuciones.md`](docs/atribuciones.md).
 
 ## Licencia
 
