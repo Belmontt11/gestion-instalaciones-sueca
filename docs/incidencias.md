@@ -5,9 +5,9 @@
 - **Entorno:** Ubuntu Server 24.04 en VirtualBox; Odoo Server 16.0 desde el entorno virtual; PostgreSQL local.
 - **Síntoma:** la página de creación de base de datos permaneció cargando durante más de una hora.
 - **Resultado esperado:** Odoo inicializa la base y redirige a la pantalla de inicio de sesión.
-- **Diagnóstico:** el registro de Odoo llegó a `module base: creating or updating database tables`. En PostgreSQL, el estado del módulo `base` era `to install`; la inicialización no había terminado. Durante la revisión, la VM tenía 3,8 GiB de RAM total, 3,4 GiB disponibles y 3,3 GiB libres en disco. La causa original del bloqueo no quedó determinada.
-- **Corrección:** intentamos interrumpir el proceso y apagar la VM mediante ACPI; la VM no respondió y apagamos desde VirtualBox. Tras reiniciar, eliminamos únicamente la base incompleta y repetimos la creación con registro detallado.
+- **Diagnóstico:** el registro de Odoo llegó a `module base: creating or updating database tables`. En PostgreSQL, el estado del módulo `base` era `to install`; la inicialización no había terminado. Durante la revisión, la VM tenía 3,8 GB de RAM total, 3,4 GB disponibles y 3,3 GB libres en disco. La causa original del bloqueo no quedó determinada.
+- **Corrección:** intentamos interrumpir el proceso y apagar la VM mediante ACPI; la VM no respondió y apagamos desde VirtualBox. Tras reiniciar, eliminamos únicamente la base incompleta y repetimos la creación con registro.
 - **Verificación inicial:** Odoo mostró el inicio de sesión y tras esto pudimos entrar.
 - **Comprobaciones posteriores:** Odoo quedó como servicio `systemd`; PostgreSQL y Odoo aparecen activos, la base abre desde el navegador y el contacto ficticio `Prueba persistencia L1` siguió visible tras reiniciar Ubuntu. Las evidencias están enlazadas en [`docs/L1-verificaciones.md`](L1-verificaciones.md).
-- **Nota:** no se determinó la causa exacta del primer bloqueo. No se presenta una hipótesis como causa demostrada.
+- **Nota:** no se determinó la causa exacta del primer bloqueo.
 
