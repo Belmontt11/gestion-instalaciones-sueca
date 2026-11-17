@@ -33,5 +33,5 @@ Los ajustes de esta instalación están en `/opt/odoo/.odoorc`. La guía del cur
 Odoo atiende las conexiones web por el puerto `8069` dentro de la máquina virtual. VirtualBox reenvía ese puerto al portátil, por eso se abre la aplicación en `http://127.0.0.1:8069`.
 ## Preparación de la entrega en Aules
 
-La ficha `lliurament.md` o PDF se prepara para Aules al cerrar L1. Debe incluir URL pública, etiqueta `L1`, SHA completo del commit, resumen de lo que funciona, criterios trabajados y ubicación de las pruebas. No se debe inventar el SHA ni mover la etiqueta después de entregar; las revisiones requieren una etiqueta y un SHA nuevos.
+La ficha `lliurament.md` o PDF la preparamos para cerrar y entregar L1. Debe incluir URL pública, etiqueta `L1`, SHA completo del commit, resumen de lo que funciona, criterios trabajados y ubicación de las pruebas. 
 
